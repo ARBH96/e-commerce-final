@@ -44,15 +44,15 @@ const updatePedidos = asyncHandler(async (req, res) => {
 
 const deletePedidos = asyncHandler(async (req, res) => {
 
-    //verificamos que la tarea existe
+    //verificamos que el pedido existe
     const pedido = await Pedido.findById(req.params.id)
 
     if (!pedido) {
         res.status(400)
-        throw new Error('Tarea no encontrada')
+        throw new Error('Pedido no encontrado')
     }
 
-    //verificamos que la tarea pertenece al usuario logeado
+    //verificamos que el pedido pertenece al usuario logeado
     if (pedido.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('Usuario no autorizado')
