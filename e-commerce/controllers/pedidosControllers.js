@@ -1,65 +1,45 @@
 const asyncHandler = require('express-async-handler')
-const Pedido = require('../models/pedidosModel')
+const Pedidos = require('../models/pedidosModel')
 
 const getPedidos = asyncHandler(async (req, res) => {
-    const pedidos = await Pedido.find({ user: req.user.id })
-    res.status(200).json(pedidos)
+    const pedidos = await Pedidos.find()
+    res.status(200).json(productos)
 })
 
 const createPedidos = asyncHandler(async (req, res) => {
 
-    if (!req.body.texto) {
-        res.status(400)
-        throw new Error("Favor de teclear una descripcion")
+    if (!req.body.productName && !req.body.productDescription && !req.body.productPrice && !req.body.productStock) {
+        res.status(400).json({
+        message: "Ingresa datos"
+        })
     }
 
-    const pedido = await Pedido.create({
-        texto: req.body.texto,
-        user: req.user.id
+    const pedidos = await modelProduct.create({
+        productName: req.body.productName,
+        productDescription: req.body.productDescription,
+        productPrice: req.body.productPrice,
+        productStock: req.body.productStock
     })
 
-    res.status(201).json(pedido)
+    res.status(201).json(pedidos)
 
 })
 
 const updatePedidos = asyncHandler(async (req, res) => {
 
     //verificamos que la tarea exista
-    const pedido = await Pedido.findById(req.params.id)
+    const product = await modelProduct.findById(req.params.id)
 
-    if (!pedido) {
+    if (!product) {
         res.status(400)
-        throw new Error('Tarea no encontrada')
+        throw new Error('Producto no encontrado')
     }
-
-    //verificamos que la tarea pertenece al usuario logeado
-    if (pedido.user.toString() !== req.user.id) {
-        res.status(401)
-        throw new Error('Usuario no autorizado')
-    } else {
-        const pedidoUpdated = await Pedido.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        res.status(200).json(pedidoUpdated)
-    }
+        const productUpdated = await modelProduct.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        res.status(200).json(productUpdated)
 })
 
 const deletePedidos = asyncHandler(async (req, res) => {
-
-    //verificamos que el pedido existe
-    const pedido = await Pedido.findById(req.params.id)
-
-    if (!pedido) {
-        res.status(400)
-        throw new Error('Pedido no encontrado')
-    }
-
-    //verificamos que el pedido pertenece al usuario logeado
-    if (pedido.user.toString() !== req.user.id) {
-        res.status(401)
-        throw new Error('Usuario no autorizado')
-    } else {
-        await pedido.deleteOne()
-        res.status(200).json({ id: req.params.id })
-    }
+    res.status(200).json({message: `Elimina el pedido con tu id: ${req.params.id}`})
 })
 
 module.exports = {

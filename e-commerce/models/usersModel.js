@@ -14,8 +14,6 @@ const userSchema = mongoose.Schema({
         type: String,
         required: [true, "Por favor teclea tu password"]
     }
-}, {
-    timestamps: true
 })
 
 module.exports = mongoose.model('User', userSchema)

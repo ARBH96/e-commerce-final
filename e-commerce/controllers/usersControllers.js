@@ -8,8 +8,10 @@ const registrarUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body
 
     if (!name || !email || !password) {
-        res.status(400)
-        throw new Error("Faltan datos")
+        return res.status(400).json({
+            message: "Faltan datos"
+        })
+        
     }
 
     //verificar si el usuario existe
@@ -45,37 +47,13 @@ const registrarUser = asyncHandler(async (req, res) => {
 })
 
 const loginUser = asyncHandler(async (req, res) => {
-
-    const { email, password } = req.body
-
-    //verificamos que el usuario existe
-    const user = await User.findOne({ email })
-
-    //si existe el usuario verificamos el hash del password
-    if (user && (await bcrypt.compare(password, user.password))) {
-        res.status(200).json({
-            _id: user.id,
-            name: user.name,
-            email: user.email,
-            token: generarToken(user._id)
-        })
-    } else {
-        res.status(400)
-        throw new Error("credenciales incorrectas")
-    }
 })
 
-const generarToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '30d'
-    })
-}
-
-const dataUser = (req, res) => {
-    res.status(200).json(req.user)
-}
-
-module.exports = {
+const dataUser = asyncHandler(async(req, res)=>{
+    const usuarios = await modelUser.find()
+    res.status(200).json(usuarios)
+})
+module.exports ={
     registrarUser,
     loginUser,
     dataUser

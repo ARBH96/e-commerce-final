@@ -1,14 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const { createProductos, getProductos} = require('../controllers/productosControllers')
-const authMiddleware = require('../middleware/authMiddleware')
+const { getPedidos, createPedidos, updatePedidos, deletePedidos} = require('../controllers/pedidosControllers')
+//const {protect} = require('../middleware/authMiddleware')
 
-//router.route('/').get(getPedidos).post(createPedidos)
-//router.get('/productos', authMiddleware, getProductos)
-//router.post('/productos', authMiddleware, createProductos)
+//router.route('/').get(getPedidos)
+router.route('/').get(getPedidos).post(createPedidos)
 
 //router.route('/:id').delete(protect, deletePedidos).put(protect, updatePedidos)
-//router.put('/:id', protect, updateProductos)
-//router.delete('/:id', protect, deleteProductos)
+router.route('/:id').put(updatePedidos).delete(deletePedidos)
 
 module.exports = router

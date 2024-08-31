@@ -1,22 +1,53 @@
 const asyncHandler = require('express-async-handler')
-const Producto = require('../models/productosModel')
+const Product = require('../models/productosModel')
 
-exports.createProductos = async (req, res) =>{
-    const {name, price} = req.body;
-    try{
-        const producto = new Producto({name, price});
-        await producto.save();
-        res.status(201).json(producto);
-    } catch (err){
-        res.status(500).json({error: err.message});
-    }
-};
+const getProductos = asyncHandler (async(req, res)=>{
+    const productos = await modelProduct.find()
+    res.status(200).json(productos)
+})
 
-exports.getProductos = async (req, res) =>{
-    try{
-        const productos = await Producto.find();
-        res.json(productos);
-    } catch (err){
-        res.status(500).json({error: err.message});
+const createProductos = asyncHandler(async (req,res)=>{
+    if(!req.body.productName && !req.body.productDescription && !req.body.productPrice && !req.body.productStock){
+        return res.status(400).json({
+            message: "Ingresa datos"
+        })
     }
-};
+    const product = await modelProduct.create({
+        productName: req.body.productName,
+        productDescription: req.body.productDescription,
+        productPrice: req.body.productPrice,
+        productStock: req.body.productStock
+    })
+    res.status(201).json(product)
+})
+const updateProductos = asyncHandler(async (req,res) =>{
+    const product = await modelProduct.findById(req.params.id)
+
+    if(!product){
+        res.status(400)
+        throw new Error ('Producto no encontrado')
+    }
+
+    const productUpdated = await modelProduct.findByIdAndUpdate(req.params.id, req.body,{new: true})
+
+    res.status(200).json(productUpdated)
+})
+
+const deleteProductos = asyncHandler(async (req, res)=>{
+    const product = await modelProduct.findById(req.params.id)
+
+    if(!product){
+        res.status(400)
+        throw new Error('Producto no encontrado')
+    }
+    await product.deleteOne()
+
+    res.status(200).json({id:req.params.id})
+})
+
+module.exports ={
+    getProductos,
+    createProductos,
+    updateProductos,
+    deleteProductos
+}
