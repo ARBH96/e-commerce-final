@@ -1,8 +1,8 @@
 const asyncHandler = require('express-async-handler')
-const Pedidos = require('../models/pedidosModel')
+const modelPedidos = require('../models/pedidosModel')
 
 const getPedidos = asyncHandler(async (req, res) => {
-    const pedidos = await Pedidos.find()
+    const pedidos = await modelPedidos.find()
     res.status(200).json(productos)
 })
 
