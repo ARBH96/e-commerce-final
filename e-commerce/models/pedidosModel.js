@@ -6,8 +6,8 @@ const pedidoSchema = mongoose.Schema({
         required: [true, 'Ingresa el nombre del producto'],
         ref: 'User'
     },
-    producto: {
-        type: Schema.Types.ObjectId,
+    product: {
+        type: mongoose.Schema.Types.ObjectId,
         required:[true, 'Ingresa la descripcion del producto'],
         ref: 'Product'
     },
@@ -15,7 +15,7 @@ const pedidoSchema = mongoose.Schema({
         type:mongoose.Types.Decimal128,
         required:[true, 'Ingresa el precio del producto']
     },
-    cantidad:{
+    amount:{
         type: Number,
         required: [true, 'Cantidad del producto a comprar']
     },

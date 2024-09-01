@@ -12,9 +12,9 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+app.use('/api/productos', require('./routes/productosRoutes'))
 app.use('/api/pedidos', require('./routes/pedidosRoutes'))
 app.use('/api/users', require('./routes/usersRoutes'))
-app.use('/api/productos', require('./routes/productosRoutes'));
 
 app.use(errorHandler)
 

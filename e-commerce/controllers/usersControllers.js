@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
-const User = require('../models/usersModel')
+const modelUser = require('../models/usersModel')
 
 const registrarUser = asyncHandler(async (req, res) => {
 
@@ -15,7 +15,7 @@ const registrarUser = asyncHandler(async (req, res) => {
     }
 
     //verificar si el usuario existe
-    const existeUsuario = await User.findOne({ email })
+    const existeUsuario = await modelUser.findOne({ email })
 
     if (existeUsuario) {
         res.status(400)
@@ -27,7 +27,7 @@ const registrarUser = asyncHandler(async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt)
 
         //Crear el usuario
-        const user = await User.create({
+        const user = await modelUser.create({
             name,
             email,
             password: hashedPassword

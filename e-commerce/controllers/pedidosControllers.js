@@ -9,7 +9,7 @@ const getPedidos = asyncHandler(async (req, res) => {
 const createPedidos = asyncHandler(async (req, res) => {
 
     if (!req.body.productName && !req.body.productDescription && !req.body.productPrice && !req.body.productStock) {
-        res.status(400).json({
+       return res.status(400).json({
         message: "Ingresa datos"
         })
     }
