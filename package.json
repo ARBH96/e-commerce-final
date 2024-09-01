@@ -1,13 +1,13 @@
 {
-  "name": "back",
+  "name": "ecommerce",
   "version": "1.0.0",
   "description": "Commerce de Pedidos",
   "main": "server.js",
   "scripts": {
-    "start": "node e-commerce/server.js",
-    "server": "nodemon e-commerce/server.js"
+    "start": "node server.js",
+    "server": "nodemon server.js"
   },
-  "author": "",
+  "author": "ARBH",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
